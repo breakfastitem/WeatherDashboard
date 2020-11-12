@@ -22,14 +22,14 @@
     <div class="container">
         <div class ="row">
             <!--Search/Selector content-->
-            <aside class ="col-3">
+            <section class ="col-3">
 
                 <h2>Search for a City:</h2>
 
-                <!-Search input->
+                <!--Search input-->
                 <form>
                     <input id="search-input" />
-                    <button id="button-search"> Submit </button>
+                    <button id="search-button"> Search </button>
                 </form>
 
                 <!-- For Search Results-->
@@ -37,13 +37,13 @@
 
                 </ul>
 
-            </aside>
+            </section>
             <!--Details/Five Day forecast Content-->
             <div class ="col-9">
                 <!--Details -->
-                <div class="row"> 
+                <div class="row">
                    <div class="col-12">
-                       <h3>City Name</h3>
+                       <h3 id="details-header">City</h3>
 
                        <ul id="detail-list">
                            <li id="temp">Temperature: </li>
@@ -52,9 +52,9 @@
                            <li id="uv">Uv Index: </li>
                        </ul>
 
-                   </div> 
+                   </div>
                 </div>
-                
+
                 <!--Five Day Forecast-->
                 <div class="row">
                     <h4>5-Day Forecast:</h4>
