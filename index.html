@@ -12,11 +12,74 @@
       href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
     />
     <!--Local-->
-    <link rel="styles.css">
+    <link rel="stylesheet" href="styles.css"/>
 
 </head>
 
 <body>
+    <h1>Weather Dashboard</h1>
+
+    <div class="container">
+        <div class ="row">
+            <!--Search/Selector content-->
+            <aside class ="col-3">
+
+                <h2>Search for a City:</h2>
+
+                <!-Search input->
+                <form>
+                    <input id="search-input" />
+                    <button id="button-search"> Submit </button>
+                </form>
+
+                <!-- For Search Results-->
+                <ul id="search-list">
+
+                </ul>
+
+            </aside>
+            <!--Details/Five Day forecast Content-->
+            <div class ="col-9">
+                <!--Details -->
+                <div class="row"> 
+                   <div class="col-12">
+                       <h3>City Name</h3>
+
+                       <ul id="detail-list">
+                           <li id="temp">Temperature: </li>
+                           <li id="humidity">Humidity: </li>
+                           <li id="wind"> Wind Speed:</li>
+                           <li id="uv">Uv Index: </li>
+                       </ul>
+
+                   </div> 
+                </div>
+                
+                <!--Five Day Forecast-->
+                <div class="row">
+                    <h4>5-Day Forecast:</h4>
+                    <div id="day-1" class="col-2">
+
+                    </div> 
+                    <div id="day-2" class="col-2">
+
+                    </div> 
+                    <div id="day-3" class="col-2">
+
+                    </div> 
+                    <div id="day-4" class="col-2">
+
+                    </div> 
+                    <div id="day-5" class="col-2">
+
+                    </div> 
+                    
+                 </div>
+            </div>
+
+        </div>
+    </div>
+    
 
     <!-- jQuery and moment.js -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>

@@ -1,0 +1,14 @@
+/*Broad Styles*/
+ul,ol{
+ list-style: none;
+}
+h1 {
+ width: 100%;
+
+ background-color: black;
+ color: aquamarine;
+ text-align: center;
+
+ padding-bottom: 10px;
+ padding-top: 10px;
+}
