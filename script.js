@@ -1,38 +1,74 @@
-function displayWeatherStats(cityName,stateName){
+function displayWeatherStats(cityName, stateName) {
 
-    var generalQueryUrl = "http://api.openweathermap.org/data/2.5/weather?q="+ cityName +","+ stateName +"&units=imperial&appid=29bee85b4cd6fced7d450f1d24d41a67";
-    var fiveDayQueryUrl="http://api.openweathermap.org/data/2.5/forecast?q="+cityName+"&appid=29bee85b4cd6fced7d450f1d24d41a67";
+    var generalQueryUrl = "http://api.openweathermap.org/data/2.5/weather?q=" + cityName + "," + stateName + "&units=imperial&appid=29bee85b4cd6fced7d450f1d24d41a67";
+    var fiveDayQueryUrl = "http://api.openweathermap.org/data/2.5/forecast?q=" + cityName + "&units=imperial&appid=29bee85b4cd6fced7d450f1d24d41a67";
 
     $.ajax({
-        method:"GET",
-        url:generalQueryUrl
-    }).then(function(response){
+        method: "GET",
+        url: generalQueryUrl
+    }).then(function (response) {
 
-        $("#details-header").text(cityName);
-        $("#temp").text("Temperature: "+ response.main.temp+ " °F");
-        $("#humidity").text("Humidity: "+response.main.humidity+"%");
-        $("#wind").text("Wind: "+response.wind.speed+" MPH");
+        $("#details-header").text(cityName + " (" + moment().format("MM/D/YYYY") + ")");
+        $("#temp").text("Temperature: " + response.main.temp + " °F");
+        $("#humidity").text("Humidity: " + response.main.humidity + "%");
+        $("#wind").text("Wind: " + response.wind.speed + " MPH");
 
-        var uvQueryUrl = "http://api.openweathermap.org/data/2.5/uvi?lat="+ response.coord.lat +"&lon="+ response.coord.lon +"&appid=29bee85b4cd6fced7d450f1d24d41a67";
+        var uvQueryUrl = "http://api.openweathermap.org/data/2.5/uvi?lat=" + response.coord.lat + "&lon=" + response.coord.lon + "&appid=29bee85b4cd6fced7d450f1d24d41a67";
 
         $.ajax({
-            method:"GET",
-            url:uvQueryUrl
-        }).then(function(uvResponse){
-            $("#uv").text("Uv Index: "+uvResponse.value);
+            method: "GET",
+            url: uvQueryUrl
+        }).then(function (uvResponse) {
+            $("#uv").text("Uv Index: " + uvResponse.value);
 
         });
 
     });
 
     $.ajax({
-        method:"GET",
-        url:fiveDayQueryUrl
-    }).then( function(fiveDayResponse){
-        console.log("hjhjk");
-        console.log(fiveDayResponse);
+        method: "GET",
+        url: fiveDayQueryUrl
+    }).then(function (fiveDayResponse) {
+        
+        var indexOffset = 0;
+        var found = false;
+
+        //Find Day
+        for (var j = 0; j < 40 && !found; j++) {
+            var date = fiveDayResponse.list[j].dt_txt.split(" ")[0];
+            if (date === moment().add(1, 'days').format("YYYY-MM-D")) {
+                indexOffset = j;
+                found = true;
+            }
+           
+        }
+
+        for (var i = 0; i < 5; i++) {
+            var index =(8 * i) + (indexOffset+4);
+
+            var dayDiv = $("#day-" + (i + 1));
+           
+            if(index<40){
+                var date = $("<h5 class='card-title'>" + fiveDayResponse.list[index].dt_txt.split(" ")[0] + "</h5>");
+                var icon = $("<img>");
+                var temp = $("<p class='card-text'> Temperature:" + fiveDayResponse.list[index].main.temp + "°F</p>");
+                var humidity =$("<p class='card-text'> Humidity:" + fiveDayResponse.list[index].main.temp + "%</p>");
+            }else{
+                var date = $("<h5 class='card-title'>" + fiveDayResponse.list[39].dt_txt.split(" ")[0] + "</h5>");
+                var icon = $("<img>");
+                var temp = $("<p class='card-text'> Temperature:" + fiveDayResponse.list[39].main.temp + "°F</p>");
+                var humidity =$("<p class='card-text'> Humidity:" + fiveDayResponse.list[39].main.temp + "%</p>");
+            }
+           
+
+            dayDiv.append(date);
+            dayDiv.append(icon);
+            dayDiv.append(temp);
+            dayDiv.append(humidity);
+
+        }
     });
 
 }
 
-displayWeatherStats("Cincinnati","ohio");
+displayWeatherStats("Cincinnati", "ohio");
