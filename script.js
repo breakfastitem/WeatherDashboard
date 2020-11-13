@@ -1,3 +1,4 @@
+var nameHistory = [];
 function displayWeatherStats(cityName) {
 
     var generalQueryUrl = "http://api.openweathermap.org/data/2.5/weather?q=" + cityName + "&units=imperial&appid=29bee85b4cd6fced7d450f1d24d41a67";
@@ -72,6 +73,7 @@ function displayWeatherStats(cityName) {
 
 }
 
+//select button functionality
 $("#search-button").on("click",function(event){
     event.preventDefault();
 
@@ -79,9 +81,29 @@ $("#search-button").on("click",function(event){
     $("#search-input").val("");
 
     if(cityInput!=""){
+        //makes name capital
+        cityInput = cityInput.charAt(0).toUpperCase()+cityInput.slice(1);
+
         displayWeatherStats(cityInput);
+
+        //determine ir 404 occured
+
+        var listItem = $("<li>");
+        var button=$("<button class='searched-city'></button>");
+        button.attr("id","city-"+cityInput.length);
+        button.text(cityInput);
+
+        listItem.append(button);
+        nameHistory.push(cityInput);
+
+        $("#search-list").append(listItem);
+        
     }
 
 });
+
+// $(".searched-city").on("click",function(event){
+    
+// });
 
 displayWeatherStats("Cincinnati");
