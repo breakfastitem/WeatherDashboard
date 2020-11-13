@@ -1,6 +1,6 @@
-function displayWeatherStats(cityName, stateName) {
+function displayWeatherStats(cityName) {
 
-    var generalQueryUrl = "http://api.openweathermap.org/data/2.5/weather?q=" + cityName + "," + stateName + "&units=imperial&appid=29bee85b4cd6fced7d450f1d24d41a67";
+    var generalQueryUrl = "http://api.openweathermap.org/data/2.5/weather?q=" + cityName + "&units=imperial&appid=29bee85b4cd6fced7d450f1d24d41a67";
     var fiveDayQueryUrl = "http://api.openweathermap.org/data/2.5/forecast?q=" + cityName + "&units=imperial&appid=29bee85b4cd6fced7d450f1d24d41a67";
 
     $.ajax({
@@ -29,7 +29,7 @@ function displayWeatherStats(cityName, stateName) {
         method: "GET",
         url: fiveDayQueryUrl
     }).then(function (fiveDayResponse) {
-        
+
         var indexOffset = 0;
         var found = false;
 
@@ -44,6 +44,7 @@ function displayWeatherStats(cityName, stateName) {
         }
 
         for (var i = 0; i < 5; i++) {
+            //each day has 8 datpoints, adding 4 aims for early morning time 
             var index =(8 * i) + (indexOffset+4);
 
             var dayDiv = $("#day-" + (i + 1));
@@ -59,7 +60,7 @@ function displayWeatherStats(cityName, stateName) {
                 var temp = $("<p class='card-text'> Temperature:" + fiveDayResponse.list[39].main.temp + "°F</p>");
                 var humidity =$("<p class='card-text'> Humidity:" + fiveDayResponse.list[39].main.temp + "%</p>");
             }
-           
+           dayDiv.empty();
 
             dayDiv.append(date);
             dayDiv.append(icon);
@@ -71,4 +72,16 @@ function displayWeatherStats(cityName, stateName) {
 
 }
 
-displayWeatherStats("Cincinnati", "ohio");
+$("#search-button").on("click",function(event){
+    event.preventDefault();
+
+    var cityInput = $("#search-input").val().trim();
+    $("#search-input").val("");
+
+    if(cityInput!=""){
+        displayWeatherStats(cityInput);
+    }
+
+});
+
+displayWeatherStats("Cincinnati");
