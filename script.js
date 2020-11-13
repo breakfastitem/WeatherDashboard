@@ -41,27 +41,27 @@ function displayWeatherStats(cityName) {
                 indexOffset = j;
                 found = true;
             }
-           
+
         }
 
         for (var i = 0; i < 5; i++) {
             //each day has 8 datpoints, adding 4 aims for early morning time 
-            var index =(8 * i) + (indexOffset+4);
+            var index = (8 * i) + (indexOffset + 4);
 
             var dayDiv = $("#day-" + (i + 1));
-           
-            if(index<40){
+
+            if (index < 40) {
                 var date = $("<h5 class='card-title'>" + fiveDayResponse.list[index].dt_txt.split(" ")[0] + "</h5>");
                 var icon = $("<img>");
                 var temp = $("<p class='card-text'> Temperature:" + fiveDayResponse.list[index].main.temp + "°F</p>");
-                var humidity =$("<p class='card-text'> Humidity:" + fiveDayResponse.list[index].main.temp + "%</p>");
-            }else{
+                var humidity = $("<p class='card-text'> Humidity:" + fiveDayResponse.list[index].main.temp + "%</p>");
+            } else {
                 var date = $("<h5 class='card-title'>" + fiveDayResponse.list[39].dt_txt.split(" ")[0] + "</h5>");
                 var icon = $("<img>");
                 var temp = $("<p class='card-text'> Temperature:" + fiveDayResponse.list[39].main.temp + "°F</p>");
-                var humidity =$("<p class='card-text'> Humidity:" + fiveDayResponse.list[39].main.temp + "%</p>");
+                var humidity = $("<p class='card-text'> Humidity:" + fiveDayResponse.list[39].main.temp + "%</p>");
             }
-           dayDiv.empty();
+            dayDiv.empty();
 
             dayDiv.append(date);
             dayDiv.append(icon);
@@ -72,38 +72,47 @@ function displayWeatherStats(cityName) {
     });
 
 }
+$("document").ready(function () {
 
-//select button functionality
-$("#search-button").on("click",function(event){
-    event.preventDefault();
+    //select button functionality
+    $("#search-button").on("click", function (event) {
+        event.preventDefault();
 
-    var cityInput = $("#search-input").val().trim();
-    $("#search-input").val("");
+        var cityInput = $("#search-input").val().trim();
+        $("#search-input").val("");
 
-    if(cityInput!=""){
-        //makes name capital
-        cityInput = cityInput.charAt(0).toUpperCase()+cityInput.slice(1);
+        if (cityInput != "") {
+            //makes name capital
+            cityInput = cityInput.charAt(0).toUpperCase() + cityInput.slice(1);
 
-        displayWeatherStats(cityInput);
+            displayWeatherStats(cityInput);
 
-        //determine ir 404 occured
+            //determine ir 404 occured
 
-        var listItem = $("<li>");
-        var button=$("<button class='searched-city'></button>");
-        button.attr("id","city-"+cityInput.length);
-        button.text(cityInput);
+            var listItem = $("<li>");
+            var button = $("<button></button>");
+            button.attr("id", "city-" + nameHistory.length);
+            button.text(cityInput);
 
-        listItem.append(button);
-        nameHistory.push(cityInput);
+            listItem.append(button);
+            nameHistory.push(cityInput);
 
-        $("#search-list").append(listItem);
-        
-    }
+            $("#search-list").prepend(listItem);
+
+        }
+
+    });
+
+    $(".city-button").on("click", function(event) {
+
+        var targetIndex = event.target.id.split("-")[1];
+     
+        displayWeatherStats(nameHistory[targetIndex]);
+
+    });
 
 });
 
-// $(".searched-city").on("click",function(event){
-    
-// });
+
 
 displayWeatherStats("Cincinnati");
