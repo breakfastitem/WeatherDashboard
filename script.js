@@ -8,7 +8,7 @@ var nameHistory = [];
  *Global Functions
  */
 //isRefresh=true prevents new list item creation
-function displayWeatherStats(cityName,isRefresh) {
+function displayWeatherStats(cityName, isRefresh) {
 
     var generalQueryUrl = "http://api.openweathermap.org/data/2.5/weather?q=" + cityName + "&units=imperial&appid=29bee85b4cd6fced7d450f1d24d41a67";
     var fiveDayQueryUrl = "http://api.openweathermap.org/data/2.5/forecast?q=" + cityName + "&units=imperial&appid=29bee85b4cd6fced7d450f1d24d41a67";
@@ -16,24 +16,20 @@ function displayWeatherStats(cityName,isRefresh) {
     $.ajax({
         method: "GET",
         url: generalQueryUrl,
-        error: function(){
+        error: function () {
             console.log("404 error do something");
         }
     }).then(function (response) {
 
         //updates Data only on new query
-        if(!isRefresh){
+        if (!isRefresh) {
             nameHistory.push(cityName);
-            
-            if(nameHistory.length>10){
-                nameHistory=nameHistory.slice(1);
-            }
 
             localStorage.setItem("searched", JSON.stringify(nameHistory));
             //call render function based on data
             renderSearchList();
         }
-        
+
         $("#details-header").text(cityName + " (" + moment().format("MM/D/YYYY") + ")");
         $("#temp").text("Temperature: " + response.main.temp + " °F");
         $("#humidity").text("Humidity: " + response.main.humidity + "%");
@@ -54,7 +50,7 @@ function displayWeatherStats(cityName,isRefresh) {
     $.ajax({
         method: "GET",
         url: fiveDayQueryUrl,
-        error: function(){
+        error: function () {
             console.log("404 error do something");
         }
     }).then(function (fiveDayResponse) {
@@ -81,13 +77,13 @@ function displayWeatherStats(cityName,isRefresh) {
             if (index < 40) {
                 var date = $("<h5 class='card-title'>" + fiveDayResponse.list[index].dt_txt.split(" ")[0] + "</h5>");
                 var icon = $("<img>");
-                var temp = $("<p class='card-text'> Temperature:" + fiveDayResponse.list[index].main.temp + "°F</p>");
-                var humidity = $("<p class='card-text'> Humidity:" + fiveDayResponse.list[index].main.temp + "%</p>");
+                var temp = $("<p class='card-text'> Temp: " + fiveDayResponse.list[index].main.temp + "°F</p>");
+                var humidity = $("<p class='card-text'> Humidity: " + fiveDayResponse.list[index].main.temp + "%</p>");
             } else {
                 var date = $("<h5 class='card-title'>" + fiveDayResponse.list[39].dt_txt.split(" ")[0] + "</h5>");
                 var icon = $("<img>");
-                var temp = $("<p class='card-text'> Temperature:" + fiveDayResponse.list[39].main.temp + "°F</p>");
-                var humidity = $("<p class='card-text'> Humidity:" + fiveDayResponse.list[39].main.temp + "%</p>");
+                var temp = $("<p class='card-text'> Temp: " + fiveDayResponse.list[39].main.temp + "°F</p>");
+                var humidity = $("<p class='card-text'> Humidity: " + fiveDayResponse.list[39].main.temp + "%</p>");
             }
             dayDiv.empty();
 
@@ -102,9 +98,16 @@ function displayWeatherStats(cityName,isRefresh) {
 };
 
 //renders search list from data
-//TODO: create max of 10 or so cities
+
 function renderSearchList() {
     $("#search-list").empty();
+
+    //prevents list from growing infinitly
+
+    while (nameHistory.length > 11) {
+        nameHistory = nameHistory.slice(1);
+    }
+
 
     for (var i = 0; i < nameHistory.length; i++) {
 
@@ -136,8 +139,7 @@ $("document").ready(function () {
             //makes name capital
             cityInput = cityInput.charAt(0).toUpperCase() + cityInput.slice(1);
 
-           
-            displayWeatherStats(cityInput,false);
+            displayWeatherStats(cityInput, false);
 
         }
 
@@ -147,7 +149,7 @@ $("document").ready(function () {
 
         var targetIndex = event.target.id.split("-")[1];
 
-        displayWeatherStats(nameHistory[targetIndex],true);
+        displayWeatherStats(nameHistory[targetIndex], true);
 
     });
 
@@ -158,14 +160,14 @@ $("document").ready(function () {
  */
 var tempHistory = JSON.parse(localStorage.getItem("searched"));
 
-if(tempHistory!=null){
-    nameHistory=tempHistory;
+if (tempHistory != null) {
+    nameHistory = tempHistory;
 }
 
 renderSearchList();
 
-if(nameHistory.length>0){
-    displayWeatherStats(nameHistory[nameHistory.length-1],true);
-}else{
-    displayWeatherStats("Atlanta",true);
+if (nameHistory.length > 0) {
+    displayWeatherStats(nameHistory[nameHistory.length - 1], true);
+} else {
+    displayWeatherStats("Cincinnati", true);
 }
