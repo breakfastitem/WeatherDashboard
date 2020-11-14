@@ -7,16 +7,29 @@ var nameHistory = [];
 /**
  *Global Functions
  */
-function displayWeatherStats(cityName) {
+//True prevents new list item creation
+function displayWeatherStats(cityName,isRefresh) {
 
     var generalQueryUrl = "http://api.openweathermap.org/data/2.5/weather?q=" + cityName + "&units=imperial&appid=29bee85b4cd6fced7d450f1d24d41a67";
     var fiveDayQueryUrl = "http://api.openweathermap.org/data/2.5/forecast?q=" + cityName + "&units=imperial&appid=29bee85b4cd6fced7d450f1d24d41a67";
 
     $.ajax({
         method: "GET",
-        url: generalQueryUrl
+        url: generalQueryUrl,
+        error: function(){
+            console.log("404 error do something");
+        }
     }).then(function (response) {
 
+        //updates Data only on new query
+        if(!isRefresh){
+            nameHistory.push(cityName);
+            localStorage.setItem("searched", JSON.stringify(nameHistory));
+            //call render function based on data
+            renderSearchList();
+        }
+       
+        
         $("#details-header").text(cityName + " (" + moment().format("MM/D/YYYY") + ")");
         $("#temp").text("Temperature: " + response.main.temp + " °F");
         $("#humidity").text("Humidity: " + response.main.humidity + "%");
@@ -36,7 +49,10 @@ function displayWeatherStats(cityName) {
 
     $.ajax({
         method: "GET",
-        url: fiveDayQueryUrl
+        url: fiveDayQueryUrl,
+        error: function(){
+            console.log("404 error do something");
+        }
     }).then(function (fiveDayResponse) {
 
         var indexOffset = 0;
@@ -114,15 +130,8 @@ $("document").ready(function () {
             //makes name capital
             cityInput = cityInput.charAt(0).toUpperCase() + cityInput.slice(1);
 
-            //TODO: determine if 404 error occured
-            displayWeatherStats(cityInput);
-
-            //updates Data
-            nameHistory.push(cityInput);
-            localStorage.setItem("searched", JSON.stringify(nameHistory));
-
-            //call render function based on data
-            renderSearchList();
+           
+            displayWeatherStats(cityInput,false);
 
         }
 
@@ -132,7 +141,7 @@ $("document").ready(function () {
 
         var targetIndex = event.target.id.split("-")[1];
 
-        displayWeatherStats(nameHistory[targetIndex]);
+        displayWeatherStats(nameHistory[targetIndex],true);
 
     });
 
@@ -142,14 +151,15 @@ $("document").ready(function () {
  * Main
  */
 var tempHistory = JSON.parse(localStorage.getItem("searched"));
+
 if(tempHistory!=null){
     nameHistory=tempHistory;
 }
+
 renderSearchList();
 
 if(nameHistory.length>0){
-    displayWeatherStats(nameHistory[nameHistory.length-1]);
+    displayWeatherStats(nameHistory[nameHistory.length-1],true);
 }else{
-    displayWeatherStats("Atlanta");
+    displayWeatherStats("Atlanta",true);
 }
-
