@@ -22,7 +22,7 @@
 <div class="container">
     <div class="row">
         <!--Search/Selector content-->
-        <section class="col-3">
+        <section id="search-column" class="col-3">
 
             <h2>Search for a City:</h2>
 
@@ -43,15 +43,19 @@
             <!--Details -->
             <div class="row">
                 <div class="col-12">
-                    <h3 id="details-header">City</h3>
+                    <div class="card">
+    
+                        <div id="detail-list" class="card-body">
 
-                    <ul id="detail-list">
-                        <li id="temp">Temperature:</li>
-                        <li id="humidity">Humidity:</li>
-                        <li id="wind"> Wind Speed:</li>
-                        <li id="uv">Uv Index:</li>
-                    </ul>
+                            <h3 id="details-header" class="card-title">City</h3>
+                            <div id="temp" class="card-text">Temperature:</div>
+                            <div id="humidity" class="card-text">Humidity:</div>
+                            <div id="wind" class="card-text"> Wind Speed:</div>
+                            <div id="uv" class="card-text">Uv Index:</div>
+                            
+                        </div>
 
+                    </div>
                 </div>
             </div>
 
@@ -63,48 +67,41 @@
 
             <!--Five Day Forecast-->
             <div class="row">
-
-                <!--FILLS empty space-->
-                <div class="col-1">
-                </div>
                     <div class="col-2">
-                        <div class="card">
+                        <div class="card five-card">
                             <div id="day-1" class="card-body">
 
                             </div>
                         </div>
                     </div>
                     <div class="col-2">
-                        <div class="card">
+                        <div class="card  five-card">
                             <div id="day-2" class="card-body">
 
                             </div>
                         </div>
                     </div>
                     <div class="col-2">
-                        <div class="card" >
+                        <div class="card five-card" >
                             <div id="day-3" class="card-body">
 
                             </div>
                         </div>
                     </div>
                     <div class="col-2">
-                        <div class="card" >
+                        <div class="card  five-card" >
                             <div id="day-4" class="card-body">
 
                             </div>
                         </div>
                     </div>
                     <div class="col-2">
-                        <div class="card">
+                        <div class="card  five-card">
                             <div id="day-5" class="card-body">
 
                             </div>
                         </div>
                     </div>
-                <!--FILLS empty space-->
-                <div class="col-1">
-                </div>
 
             </div>
         </div>
