@@ -7,7 +7,7 @@ var nameHistory = [];
 /**
  *Global Functions
  */
-//True prevents new list item creation
+//isRefresh=true prevents new list item creation
 function displayWeatherStats(cityName,isRefresh) {
 
     var generalQueryUrl = "http://api.openweathermap.org/data/2.5/weather?q=" + cityName + "&units=imperial&appid=29bee85b4cd6fced7d450f1d24d41a67";
@@ -24,11 +24,15 @@ function displayWeatherStats(cityName,isRefresh) {
         //updates Data only on new query
         if(!isRefresh){
             nameHistory.push(cityName);
+            
+            if(nameHistory.length>10){
+                nameHistory=nameHistory.slice(1);
+            }
+
             localStorage.setItem("searched", JSON.stringify(nameHistory));
             //call render function based on data
             renderSearchList();
         }
-       
         
         $("#details-header").text(cityName + " (" + moment().format("MM/D/YYYY") + ")");
         $("#temp").text("Temperature: " + response.main.temp + " °F");
@@ -97,6 +101,8 @@ function displayWeatherStats(cityName,isRefresh) {
 
 };
 
+//renders search list from data
+//TODO: create max of 10 or so cities
 function renderSearchList() {
     $("#search-list").empty();
 
