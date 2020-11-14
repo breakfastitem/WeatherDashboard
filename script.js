@@ -1,4 +1,12 @@
+/**
+ * Internal data structure
+ * Array stores names of VALID searched cities
+ */
 var nameHistory = [];
+
+/**
+ *Global Functions
+ */
 function displayWeatherStats(cityName) {
 
     var generalQueryUrl = "http://api.openweathermap.org/data/2.5/weather?q=" + cityName + "&units=imperial&appid=29bee85b4cd6fced7d450f1d24d41a67";
@@ -71,7 +79,28 @@ function displayWeatherStats(cityName) {
         }
     });
 
-}
+};
+
+function renderSearchList() {
+    $("#search-list").empty();
+
+    for (var i = 0; i < nameHistory.length; i++) {
+
+        var listItem = $("<li>");
+        var button = $("<button></button>");
+        button.attr("id", "city-" + i);
+        button.text(nameHistory[i]);
+
+        listItem.append(button);
+
+        $("#search-list").prepend(listItem);
+    }
+
+};
+
+/**
+ * Event Handlers
+ */
 $("document").ready(function () {
 
     //select button functionality
@@ -85,34 +114,42 @@ $("document").ready(function () {
             //makes name capital
             cityInput = cityInput.charAt(0).toUpperCase() + cityInput.slice(1);
 
+            //TODO: determine if 404 error occured
             displayWeatherStats(cityInput);
 
-            //determine ir 404 occured
-
-            var listItem = $("<li>");
-            var button = $("<button></button>");
-            button.attr("id", "city-" + nameHistory.length);
-            button.text(cityInput);
-
-            listItem.append(button);
+            //updates Data
             nameHistory.push(cityInput);
+            localStorage.setItem("searched", JSON.stringify(nameHistory));
 
-            $("#search-list").prepend(listItem);
+            //call render function based on data
+            renderSearchList();
 
         }
 
     });
 
-    $(".city-button").on("click", function(event) {
+    $(".city-button").on("click", function (event) {
 
         var targetIndex = event.target.id.split("-")[1];
-     
+
         displayWeatherStats(nameHistory[targetIndex]);
 
     });
 
 });
 
+/**
+ * Main
+ */
+var tempHistory = JSON.parse(localStorage.getItem("searched"));
+if(tempHistory!=null){
+    nameHistory=tempHistory;
+}
+renderSearchList();
 
+if(nameHistory.length>0){
+    displayWeatherStats(nameHistory[nameHistory.length-1]);
+}else{
+    displayWeatherStats("Atlanta");
+}
 
-displayWeatherStats("Cincinnati");
