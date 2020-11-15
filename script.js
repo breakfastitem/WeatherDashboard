@@ -31,6 +31,9 @@ function displayWeatherStats(cityName, isRefresh) {
         }
 
         $("#details-header").text(cityName + " (" + moment().format("MM/D/YYYY") + ")");
+        var icon = $(`<span><img src=http://openweathermap.org/img/wn/${response.weather[0].icon}@2x.png alt="weather icon"  ></img></span>`);
+        $("#details-header").append(icon);
+
         $("#temp").text("Temperature: " + response.main.temp + " °F");
         $("#humidity").text("Humidity: " + response.main.humidity + "%");
         $("#wind").text("Wind: " + response.wind.speed + " MPH");
@@ -55,6 +58,7 @@ function displayWeatherStats(cityName, isRefresh) {
         }
     }).then(function (fiveDayResponse) {
 
+        console.log(fiveDayResponse.list[0]);
         var indexOffset = 0;
         var found = false;
 
@@ -69,22 +73,23 @@ function displayWeatherStats(cityName, isRefresh) {
         }
 
         for (var i = 0; i < 5; i++) {
+            
             //each day has 8 datpoints, adding 4 aims for early morning time 
             var index = (8 * i) + (indexOffset + 4);
 
             var dayDiv = $("#day-" + (i + 1));
 
-            if (index < 40) {
-                var date = $("<h5 class='card-title'>" + fiveDayResponse.list[index].dt_txt.split(" ")[0] + "</h5>");
-                var icon = $("<img>");
-                var temp = $("<p class='card-text'> Temp: " + fiveDayResponse.list[index].main.temp + "°F</p>");
-                var humidity = $("<p class='card-text'> Humidity: " + fiveDayResponse.list[index].main.temp + "%</p>");
-            } else {
-                var date = $("<h5 class='card-title'>" + fiveDayResponse.list[39].dt_txt.split(" ")[0] + "</h5>");
-                var icon = $("<img>");
-                var temp = $("<p class='card-text'> Temp: " + fiveDayResponse.list[39].main.temp + "°F</p>");
-                var humidity = $("<p class='card-text'> Humidity: " + fiveDayResponse.list[39].main.temp + "%</p>");
+            if (index >= 40) {
+                index=39;
             }
+
+            var date = $("<h5 class='card-title'>" + moment().add(i+1,"day").format("MM/D/YYYY") + "</h5>");
+            
+            var icon = $(`<img src=" http://openweathermap.org/img/wn/${fiveDayResponse.list[index].weather[0].icon}@2x.png" alt="weather icon">`);
+
+            var temp = $("<p class='card-text'> Temp: " + fiveDayResponse.list[index].main.temp + "°F</p>");
+            var humidity = $("<p class='card-text'> Humidity: " + fiveDayResponse.list[index].main.temp.toString().split(".")[0] + "%</p>");
+
             dayDiv.empty();
 
             dayDiv.append(date);
