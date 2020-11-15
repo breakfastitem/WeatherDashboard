@@ -31,7 +31,7 @@ function displayWeatherStats(cityName, isRefresh) {
         }
 
         $("#details-header").text(cityName + " (" + moment().format("MM/D/YYYY") + ")");
-        var icon = $(`<span><img src=http://openweathermap.org/img/wn/${response.weather[0].icon}@2x.png alt="weather icon"  ></img></span>`);
+        var icon = $(`<span><img src=http://openweathermap.org/img/wn/${response.weather[0].icon}.png alt="${response.weather[0].description}" ></img></span>`);
         $("#details-header").append(icon);
 
         $("#temp").text("Temperature: " + response.main.temp + " °F");
@@ -44,7 +44,21 @@ function displayWeatherStats(cityName, isRefresh) {
             method: "GET",
             url: uvQueryUrl
         }).then(function (uvResponse) {
-            $("#uv").text("Uv Index: " + uvResponse.value);
+
+            var uvIndex= Number(uvResponse.value);
+
+            var span = $(`<span>${uvIndex}</span>`);
+
+            if(uvIndex>=8){
+                span.attr("class", "uv-high uv");
+            }else if(uvIndex>=3) {
+                span.attr("class", "uv-med uv");
+            }else{
+                span.attr("class", "uv-low uv");
+            }
+
+            $("#uv").text("Uv Index: ");
+            $("#uv").append(span);
 
         });
 
@@ -58,7 +72,6 @@ function displayWeatherStats(cityName, isRefresh) {
         }
     }).then(function (fiveDayResponse) {
 
-        console.log(fiveDayResponse.list[0]);
         var indexOffset = 0;
         var found = false;
 
@@ -84,8 +97,8 @@ function displayWeatherStats(cityName, isRefresh) {
             }
 
             var date = $("<h5 class='card-title'>" + moment().add(i+1,"day").format("MM/D/YYYY") + "</h5>");
-            
-            var icon = $(`<img src=" http://openweathermap.org/img/wn/${fiveDayResponse.list[index].weather[0].icon}@2x.png" alt="weather icon">`);
+
+            var icon = $(`<img src=" http://openweathermap.org/img/wn/${fiveDayResponse.list[index].weather[0].icon}.png" alt="${fiveDayResponse.list[index].weather[0].description}">`);
 
             var temp = $("<p class='card-text'> Temp: " + fiveDayResponse.list[index].main.temp + "°F</p>");
             var humidity = $("<p class='card-text'> Humidity: " + fiveDayResponse.list[index].main.temp.toString().split(".")[0] + "%</p>");
@@ -112,7 +125,6 @@ function renderSearchList() {
     while (nameHistory.length > 11) {
         nameHistory = nameHistory.slice(1);
     }
-
 
     for (var i = 0; i < nameHistory.length; i++) {
 
