@@ -1,29 +1,56 @@
 /*General Styles*/
+body{
+    font-family: 'Lato', sans-serif;
+}
 ul,ol{
  list-style: none;
 }
 h1 {
-
  background-color: black;
  color: aquamarine;
  text-align: center;
 
  padding-bottom: 10px;
  padding-top: 10px;
-} 
-
+}
+button:focus {
+    outline:none;
+ } 
+/*Styles from uv type*/
+.uv {
+    padding-left: 3px;
+    padding-right: 3px;
+    color: white;
+}
+.uv-low{
+    background-color: green;
+}
+.uv-med{
+    background-color: yellow;
+}
+.uv-high{
+    background-color: red;
+}
 /*Styles for sections*/
 #search-column {
     background-color: #eee;
+    margin-right: 30px;
 }
 /* styles for 5day cards*/
 .five-card {
     background-color: rgb(57, 124, 201);
     color: white;
-    width: 140px;
+    width: 150px;
+    position: relative;
+    left:20px;
+    margin-right: 10px;
 }
 .five-card div p {
     font-size: small;
+}
+/*Styles for search form*/
+#search-button {
+    margin-left: 0px;
 }
 /*Styles for search list*/
 #search-list{
@@ -36,4 +63,11 @@ h1 {
     font-size: 20px;
 
     background-color: white;
+}
+#search-list li button:hover {
+    color:white;
+    background-color: gray;
+}
+#details-column{
+    padding-left: 0px;
 }
