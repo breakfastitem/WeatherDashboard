@@ -10,8 +10,8 @@ var nameHistory = [];
 //isRefresh=true prevents new list item creation
 function displayWeatherStats(cityName, isRefresh) {
 
-    var generalQueryUrl = "http://api.openweathermap.org/data/2.5/weather?q=" + cityName + "&units=imperial&appid=29bee85b4cd6fced7d450f1d24d41a67";
-    var fiveDayQueryUrl = "http://api.openweathermap.org/data/2.5/forecast?q=" + cityName + "&units=imperial&appid=29bee85b4cd6fced7d450f1d24d41a67";
+    var generalQueryUrl = "https://api.openweathermap.org/data/2.5/weather?q=" + cityName + "&units=imperial&appid=29bee85b4cd6fced7d450f1d24d41a67";
+    var fiveDayQueryUrl = "https://api.openweathermap.org/data/2.5/forecast?q=" + cityName + "&units=imperial&appid=29bee85b4cd6fced7d450f1d24d41a67";
 
     $.ajax({
         method: "GET",
@@ -31,14 +31,14 @@ function displayWeatherStats(cityName, isRefresh) {
         }
 
         $("#details-header").text(cityName + " (" + moment().format("MM/D/YYYY") + ")");
-        var icon = $(`<span><img src=http://openweathermap.org/img/wn/${response.weather[0].icon}.png alt="${response.weather[0].description}" ></img></span>`);
+        var icon = $(`<span><img src=https://openweathermap.org/img/wn/${response.weather[0].icon}.png alt="${response.weather[0].description}" ></img></span>`);
         $("#details-header").append(icon);
 
         $("#temp").text("Temperature: " + response.main.temp + " °F");
         $("#humidity").text("Humidity: " + response.main.humidity + "%");
         $("#wind").text("Wind: " + response.wind.speed + " MPH");
 
-        var uvQueryUrl = "http://api.openweathermap.org/data/2.5/uvi?lat=" + response.coord.lat + "&lon=" + response.coord.lon + "&appid=29bee85b4cd6fced7d450f1d24d41a67";
+        var uvQueryUrl = "https://api.openweathermap.org/data/2.5/uvi?lat=" + response.coord.lat + "&lon=" + response.coord.lon + "&appid=29bee85b4cd6fced7d450f1d24d41a67";
 
         $.ajax({
             method: "GET",
@@ -98,7 +98,7 @@ function displayWeatherStats(cityName, isRefresh) {
 
             var date = $("<h5 class='card-title'>" + moment().add(i+1,"day").format("MM/D/YYYY") + "</h5>");
 
-            var icon = $(`<img src=" http://openweathermap.org/img/wn/${fiveDayResponse.list[index].weather[0].icon}.png" alt="${fiveDayResponse.list[index].weather[0].description}">`);
+            var icon = $(`<img src=" https://openweathermap.org/img/wn/${fiveDayResponse.list[index].weather[0].icon}.png" alt="${fiveDayResponse.list[index].weather[0].description}">`);
 
             var temp = $("<p class='card-text'> Temp: " + fiveDayResponse.list[index].main.temp + "°F</p>");
             var humidity = $("<p class='card-text'> Humidity: " + fiveDayResponse.list[index].main.temp.toString().split(".")[0] + "%</p>");
