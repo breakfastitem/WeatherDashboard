@@ -16,7 +16,7 @@ The site appears as follows.
 
 ### Start
 
-![start-screenshot](./src/img/startScreen.JPG)
+![Dashboard](Dashboard.JPG)
 
 ## Installation
 
