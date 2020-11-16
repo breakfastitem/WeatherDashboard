@@ -1,14 +1,23 @@
 /*General Styles*/
 body{
     font-family: 'Lato', sans-serif;
+
+    background-color: whitesmoke;
+}
+.container {
+    margin-top: 1px;
+    width: 90%;
 }
 ul,ol{
  list-style: none;
 }
 h1 {
  background-color: black;
- color: aquamarine;
+ color: skyblue;
  text-align: center;
+ font-weight: 700;
+
+ margin-bottom: 0px;
 
  padding-bottom: 10px;
  padding-top: 10px;
@@ -26,15 +35,16 @@ button:focus {
     background-color: green;
 }
 .uv-med{
-    background-color: yellow;
+    background-color: orange;
 }
 .uv-high{
     background-color: red;
 }
 /*Styles for sections*/
 #search-column {
-    background-color: #eee;
+ 
     margin-right: 30px;
+    padding: 10px;
 }
 /* styles for 5day cards*/
 .five-card {
@@ -51,16 +61,30 @@ button:focus {
 /*Styles for search form*/
 #search-button {
     margin-left: 0px;
+
+    background-color: skyblue;
+
+
 }
 /*Styles for search list*/
 #search-list{
     margin-top: 10px;
-    padding-left: 0px;
-    
+    margin-bottom: 0px;
+
+    padding-left: 0px;  
+   
 }
 #search-list li button {
     width: 100%;
+    height: 40px;
     font-size: 20px;
+
+    border-top-width: 0.5px;
+    border-bottom-width: 0.5px;
+    border-left-width:1px ;
+    border-right-width:1px ;
+
+    border-color: black;
 
     background-color: white;
 }
@@ -70,4 +94,6 @@ button:focus {
 }
 #details-column{
     padding-left: 0px;
+    margin-bottom: 50px;
+    margin-top: 20px;
 }
