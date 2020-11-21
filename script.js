@@ -88,7 +88,7 @@ function displayWeatherStats(cityName, isRefresh) {
         for (var i = 0; i < 5; i++) {
             
             //each day has 8 datpoints, adding 4 aims for early morning time 
-            var index = (8 * i) + (indexOffset + 4);
+            var index = (8 * i) + (indexOffset);
 
             var dayDiv = $("#day-" + (i + 1));
 

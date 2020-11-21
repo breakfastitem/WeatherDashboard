@@ -27,9 +27,13 @@ button:focus {
  } 
 /*Styles from uv type*/
 .uv {
-    padding-left: 3px;
-    padding-right: 3px;
+    padding-left: 6px;
+    padding-right: 6px;
+    padding-top: 6px;
+    padding-bottom: 6px;
+    
     color: white;
+    border-radius: 5px;
 }
 .uv-low{
     background-color: green;
